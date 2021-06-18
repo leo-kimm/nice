@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+    <title>Flask Sample</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Flask <small>Run diabetes_model pickle file</small></h1>
+      <br>
+      <input type="text" class="form-control" id="patientData" style="width:40%; margin-bottom:10px;"/>
+      <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" onclick="runModel()">
+        Run model
+      </button>
+      <br><br><br><br>
+
+      <div style="display:flex; "><h3>Patient : </h3><p id='p_patient' style='padding:5px 0px 5px 20px; margin-bottom:0px;'></p></div>
+      <div style="display:flex; "><h3>Predicted Class : </h3><p id='p_class' style='padding:5px 0px 5px 20px;'></p></div>
+
+    </div>
+    <script src="{{ url_for('static',filename='js/jquery-3.4.1.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
+    
+    <script>
+
+      function runModel(){
+
+        var patientInfo = $('#patientData').val();
+        var param = {'patient':patientInfo};
+
+        var requestOptions = {
+          method: 'GET',
+          redirect: 'follow'
+        };
+
+        $.ajax({
+            type: "GET",
+            url: '/run_model',
+            data: param,
+            async: false,
+            success: function (result) {
+              let res_json = JSON.parse(result);
+              $('#p_patient').text(res_json.Patient);
+              $('#p_class').text(res_json.Predicted_class);
+              console.log(res_json.Patient);
+              console.log(res_json.Predicted_class);                
+            }
+        });
+      }
+
+    </script> 
+  </body>
+</html>

@@ -1,0 +1,20 @@
+# Docker Build
+docker build -t flask_sample:latest .
+
+# Docker Run
+docker run -d --name flask_sample -p 5000:5000 flask_sample
+
+
+########## 빌드된 이미지 컨테이너 레지스트리에서 올려놓고 사용할 때 ##########
+# Container Registry 등록 시 접속 계정 등록
+docker login "Container Registry 주소"
+
+# 등록할 Tag
+docker tag flask_sample flask_sample
+
+# Push
+docker push "Container Registry 주소/flask_sample"
+
+# Docker Pull
+docker pull "Container Registry 주소/flask_sample"
+
